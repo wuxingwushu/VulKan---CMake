@@ -60,7 +60,7 @@ namespace FF {
 
 		//创建模型
 		mModel = Model::create(mDevice);
-		mModel->loadModel("../../../assets/kokoro.obj", mDevice);
+		mModel->loadModel(kokoro_obj, mDevice);
 		//mModel->setModelMatrix(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
 
 		mPipeline = Wrapper::Pipeline::create(mDevice, mRenderPass);
@@ -94,10 +94,10 @@ namespace FF {
 		//设置shader
 		std::vector<Wrapper::Shader::Ptr> shaderGroup{};
 
-		auto shaderVertex = Wrapper::Shader::create(mDevice, "../../../shaders/vs.spv", VK_SHADER_STAGE_VERTEX_BIT, "main");
+		auto shaderVertex = Wrapper::Shader::create(mDevice, vs_spv, VK_SHADER_STAGE_VERTEX_BIT, "main");
 		shaderGroup.push_back(shaderVertex);
 
-		auto shaderFragment = Wrapper::Shader::create(mDevice, "../../../shaders/fs.spv", VK_SHADER_STAGE_FRAGMENT_BIT, "main");
+		auto shaderFragment = Wrapper::Shader::create(mDevice, fs_spv, VK_SHADER_STAGE_FRAGMENT_BIT, "main");
 		shaderGroup.push_back(shaderFragment);
 		
 		mPipeline->setShaderGroup(shaderGroup);

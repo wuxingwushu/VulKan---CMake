@@ -44,7 +44,7 @@ void UniformManager::init(const Wrapper::Device::Ptr& device, const Wrapper::Com
 	textureParam->mCount = 1;
 	textureParam->mDescriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 	textureParam->mStage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	textureParam->mTexture = Texture::create(mDevice, commandPool, "../../../assets/kokoro.png");
+	textureParam->mTexture = Texture::create(mDevice, commandPool, kokoro_png);
 
 	mUniformParams.push_back(textureParam);
 

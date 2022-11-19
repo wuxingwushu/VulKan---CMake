@@ -17,6 +17,9 @@
 #include <glfw3.h>
 #include <vulkan/vulkan.h>
 
+
+#include "FilePath.h"//引用文件的路径
+
 //开启的测试模式
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"//测试类型
