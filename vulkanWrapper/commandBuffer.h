@@ -20,7 +20,7 @@ namespace FF::Wrapper {
 		//begin  
 		//xxx 
 		//beginRenderPass 
-		//xxxx �󶨸���ʵ������  
+		//xxxx 绑定各类实际数据  
 		/*while (n < objectNumber) {
 			objects[i]->recordCommand()
 		}*/
@@ -28,17 +28,17 @@ namespace FF::Wrapper {
 		//end
 		
 		//VkCommandBufferUsageFlags
-		//VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT��������ֻ�ᱻʹ���ύһ��
-		//VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT���������壬��һ���������壬λ��һ��renderPass����
-		//VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT:�����Ѿ����ύ�ˣ�ִ���ڼ䣬�����ٴ��ύ
+		//VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT：这个命令，只会被使用提交一次
+		//VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT：这个命令缓冲，是一个二级缓冲，位于一个renderPass当中
+		//VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT:命令已经被提交了，执行期间，可以再次提交
 
-		//VkCommandBufferInheritanceInfo:�����������Ƕ������壬��ô����ṹ�壬��¼������������������Ϣ/�̳���Ϣ
+		//VkCommandBufferInheritanceInfo:如果本命令缓冲是二级缓冲，那么这个结构体，记录了他所属的主命令信息/继承信息
 		void begin(VkCommandBufferUsageFlags flag = 0, const VkCommandBufferInheritanceInfo& inheritance = {});
 
 		//VkSubpassContents:
-		//VK_SUBPASS_CONTENTS_INLINE:��Ⱦָ��ᱻ��¼������壬�������϶������������
-		//VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS:��Ⱦָ������˶���ָ��嵱��,����������������
-		//beginRenderPass��ʱ��&&ʹ���˶�������������£�ʹ��
+		//VK_SUBPASS_CONTENTS_INLINE:渲染指令会被记录在命令缓冲，本命令缓冲肯定就是主命令缓冲
+		//VK_SUBPASS_CONTENTS_SECONDARY_COMMAND_BUFFERS:渲染指令放在了二级指令缓冲当中,适用于主命令缓冲调用
+		//beginRenderPass的时候&&使用了二级命令缓冲的情况下，使用
 		void beginRenderPass(const VkRenderPassBeginInfo &renderPassBeginInfo, const VkSubpassContents &subPassContents = VK_SUBPASS_CONTENTS_INLINE);
 
 		void bindGraphicPipeline(const VkPipeline &pipeline);

@@ -21,7 +21,7 @@ namespace FF::Wrapper {
 		if (mCommandBuffer != VK_NULL_HANDLE) {
 			vkFreeCommandBuffers(mDevice->getDevice(), mCommandPool->getCommandPool(), 1, &mCommandBuffer);
 		}
-	}//»áËæ×ÅCommandPoolÎö¹¹£¬¶øÎö¹¹ÊÍ·Å
+	}//ä¼šéšç€CommandPoolææ„ï¼Œè€Œææ„é‡Šæ”¾
 
 	void CommandBuffer::begin(VkCommandBufferUsageFlags flag, const VkCommandBufferInheritanceInfo& inheritance) {
 		VkCommandBufferBeginInfo beginInfo{};
@@ -85,7 +85,7 @@ namespace FF::Wrapper {
 		VkBufferImageCopy region{};
 		region.bufferOffset = 0;
 
-		//Îª0´ú±í²»ĞèÒª½øĞĞpadding
+		//ä¸º0ä»£è¡¨ä¸éœ€è¦è¿›è¡Œpadding
 		region.bufferRowLength = 0;
 		region.bufferImageHeight = 0;
 

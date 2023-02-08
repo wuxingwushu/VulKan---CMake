@@ -20,8 +20,8 @@ namespace FF::Wrapper {
 		[[nodiscard]] auto getPool() const { return mPool; }
 
 	private:
-		//��Ҫ֪����ÿһ��uniform���ж��ٸ�������Ϊ��Ԥ������ռ䣬��ν�ռ䲢����uniformbuffer�Ĵ�С
-		//���ǣ�����ÿ��uniform��ͬ����ô�������Ͳ�ͬ������˵�ռ�ָ�����������Ĵ�С���̺���ϵͳ�ڲ���
+		//需要知道，每一种uniform都有多少个，才能为其预留分配空间，所谓空间并不是uniformbuffer的大小
+		//而是，根据每种uniform不同，那么描述符就不同，所以说空间指的是描述符的大小，蕴含在系统内部的
 		VkDescriptorPool mPool{ VK_NULL_HANDLE };
 		Device::Ptr mDevice{ nullptr };
 	};

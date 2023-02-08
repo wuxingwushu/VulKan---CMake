@@ -18,10 +18,10 @@ namespace FF::Wrapper {
 
 		createInfo.borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK;
 
-		//�����Ƿ�ʹ�÷ǹ�һ����uvw������ϵ0-1
+		//我们是否使用非归一化的uvw坐标体系0-1
 		createInfo.unnormalizedCoordinates = VK_FALSE;
 
-		//�����õ�������ֵ��Ҫ��һ��ֵ���бȽϣ��Ƚϵķ�ʽҲ�������ã��Ƚ�ͨ���˲��ԣ��Ų��������򲻲���
+		//采样得到的样本值需要跟一个值进行比较，比较的方式也可以设置，比较通过了测试，才采样，否则不采用
 		createInfo.compareEnable = VK_FALSE;
 		createInfo.compareOp = VK_COMPARE_OP_ALWAYS;
 

@@ -27,8 +27,8 @@
 #include "model.h"
 
 namespace FF {
-	//1 ¶¨ÒåUniformBufferÃèÊö·û,¶¨Òåµ½bufferÀàÀïÃæ
-	//2 Çø·Ömodel×¨ÓÃµÄuniform parametersÒÔ¼°È«¾Ö¹«ÓÃµÄuniform parameter
+	//1 å®šä¹‰UniformBufferæè¿°ç¬¦,å®šä¹‰åˆ°bufferç±»é‡Œé¢
+	//2 åŒºåˆ†modelä¸“ç”¨çš„uniform parametersä»¥åŠå…¨å±€å…¬ç”¨çš„uniform parameter
 
 	class Application:public std::enable_shared_from_this<Application> {
 	public:
@@ -36,7 +36,7 @@ namespace FF {
 
 		~Application() = default;
 
-		//×Ü³õÊ¼»¯
+		//æ€»åˆå§‹åŒ–
 		void run();
 
 		void onMouseMove(double xpos, double ypos);
@@ -44,19 +44,19 @@ namespace FF {
 		void onKeyDown(CAMERA_MOVE moveDirection);
 
 	private:
-		//´°¿ÚµÄ³õÊ¼»¯
+		//çª—å£çš„åˆå§‹åŒ–
 		void initWindow();
 
-		//³õÊ¼»¯Vulkan
+		//åˆå§‹åŒ–Vulkan
 		void initVulkan();
 
-		//Ö÷Ñ­»·main
+		//ä¸»å¾ªç¯main
 		void mainLoop();
 
-		//äÖÈ¾Ò»Ö¡»­Ãæ
+		//æ¸²æŸ“ä¸€å¸§ç”»é¢
 		void render();
 
-		//»ØÊÕ×ÊÔ´
+		//å›æ”¶èµ„æº
 		void cleanUp();
 
 	private:
@@ -65,7 +65,7 @@ namespace FF {
 		void createCommandBuffers();
 		void createSyncObjects();
 
-		//ÖØ½¨½»»»Á´:  µ±´°¿Ú´óĞ¡·¢Éú±ä»¯µÄÊ±ºò£¬½»»»Á´Ò²Òª·¢Éú±ä»¯£¬Frame View Pipeline RenderPass Sync
+		//é‡å»ºäº¤æ¢é“¾:  å½“çª—å£å¤§å°å‘ç”Ÿå˜åŒ–çš„æ—¶å€™ï¼Œäº¤æ¢é“¾ä¹Ÿè¦å‘ç”Ÿå˜åŒ–ï¼ŒFrame View Pipeline RenderPass Sync
 		void recreateSwapChain();
 
 		void cleanupSwapChain();
@@ -75,21 +75,21 @@ namespace FF {
 		unsigned int mHeight{ 1080 };
 
 	private:
-		int mCurrentFrame{ 0 };//äÖÈ¾µ±Ç°»­ÃæµÄ¿ò¼Ü
-		Wrapper::Window::Ptr mWindow{ nullptr };//´´½¨´°¿Ú
-		Wrapper::Instance::Ptr mInstance{ nullptr };//ÊµÁĞ»¯ĞèÒªµÄVulKan¹¦ÄÜ
-		Wrapper::Device::Ptr mDevice{ nullptr };//»ñÈ¡µçÄÔµÄÓ²¼şÉè±¸
-		Wrapper::WindowSurface::Ptr mSurface{ nullptr };//»ñÈ¡ÄãÔÚÊ²Ã´Æ½Ì¨ÔËĞĞµ÷ÓÃ²»Í¬µÄAPI£¨±ÈÈç£ºWindow£¬Android£©
-		Wrapper::SwapChain::Ptr mSwapChain{ nullptr };//ÉèÖÃVulKanµÄ¹¤×÷Ï¸½Ú
-		Wrapper::Pipeline::Ptr mPipeline{ nullptr };//ÉèÖÃäÖÈ¾Á÷³Ì¹ÜµÀ
-		Wrapper::RenderPass::Ptr mRenderPass{ nullptr };//ÊÕ¼¯ËùÓĞÒªäÖÈ¾µÄÍ³Ò»äÖÈ¾ *
-		Wrapper::CommandPool::Ptr mCommandPool{ nullptr };//Ã¿Ò»¸öäÖÈ¾ÎïÌåµÄÃüÁî *
+		int mCurrentFrame{ 0 };//æ¸²æŸ“å½“å‰ç”»é¢çš„æ¡†æ¶
+		Wrapper::Window::Ptr mWindow{ nullptr };//åˆ›å»ºçª—å£
+		Wrapper::Instance::Ptr mInstance{ nullptr };//å®åˆ—åŒ–éœ€è¦çš„VulKanåŠŸèƒ½
+		Wrapper::Device::Ptr mDevice{ nullptr };//è·å–ç”µè„‘çš„ç¡¬ä»¶è®¾å¤‡
+		Wrapper::WindowSurface::Ptr mSurface{ nullptr };//è·å–ä½ åœ¨ä»€ä¹ˆå¹³å°è¿è¡Œè°ƒç”¨ä¸åŒçš„APIï¼ˆæ¯”å¦‚ï¼šWindowï¼ŒAndroidï¼‰
+		Wrapper::SwapChain::Ptr mSwapChain{ nullptr };//è®¾ç½®VulKançš„å·¥ä½œç»†èŠ‚
+		Wrapper::Pipeline::Ptr mPipeline{ nullptr };//è®¾ç½®æ¸²æŸ“æµç¨‹ç®¡é“
+		Wrapper::RenderPass::Ptr mRenderPass{ nullptr };//æ”¶é›†æ‰€æœ‰è¦æ¸²æŸ“çš„ç»Ÿä¸€æ¸²æŸ“ *
+		Wrapper::CommandPool::Ptr mCommandPool{ nullptr };//æ¯ä¸€ä¸ªæ¸²æŸ“ç‰©ä½“çš„å‘½ä»¤ *
 
 		std::vector<Wrapper::CommandBuffer::Ptr> mCommandBuffers{};
 
-		std::vector<Wrapper::Semaphore::Ptr> mImageAvailableSemaphores{};//Í¼Æ¬¿ÉÓÃĞÅºÅÁ¿
-		std::vector<Wrapper::Semaphore::Ptr> mRenderFinishedSemaphores{};//äÖÈ¾Íê³ÉĞÅºÅÁ¿
-		std::vector<Wrapper::Fence::Ptr> mFences{};//¿ØÖÆ¹ÜÏß¹¤×÷£¬±ÈÈç£¨ÏÂÒ»¸ö¹ÜÏßĞèÒªÉÏÒ»¸ö¹ÜÏßµÄÍ¼Æ¬£¬ÄÇ¾ÍµÈÉÏÒ»¸ö¹ÜÏßÍ¼Æ¬ÊäÈë½øÀ´²Å¿ªÊ¼¹¤×÷£©
+		std::vector<Wrapper::Semaphore::Ptr> mImageAvailableSemaphores{};//å›¾ç‰‡å¯ç”¨ä¿¡å·é‡
+		std::vector<Wrapper::Semaphore::Ptr> mRenderFinishedSemaphores{};//æ¸²æŸ“å®Œæˆä¿¡å·é‡
+		std::vector<Wrapper::Fence::Ptr> mFences{};//æ§åˆ¶ç®¡çº¿å·¥ä½œï¼Œæ¯”å¦‚ï¼ˆä¸‹ä¸€ä¸ªç®¡çº¿éœ€è¦ä¸Šä¸€ä¸ªç®¡çº¿çš„å›¾ç‰‡ï¼Œé‚£å°±ç­‰ä¸Šä¸€ä¸ªç®¡çº¿å›¾ç‰‡è¾“å…¥è¿›æ¥æ‰å¼€å§‹å·¥ä½œï¼‰
 
 		UniformManager::Ptr mUniformManager{ nullptr };
 

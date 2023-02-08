@@ -24,12 +24,12 @@ namespace FF::Wrapper {
 
 		glfwInit();
 
-		//ÉèÖÃ»·¾³£¬¹Øµôopengl API ²¢ÇÒ½ûÖ¹´°¿Ú¸Ä±ä´óĞ¡
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);//¹Øµôopengl API
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);//ÊÇ·ñ½ûÖ¹´°¿Ú¸Ä±ä´óĞ¡
+		//è®¾ç½®ç¯å¢ƒï¼Œå…³æ‰opengl API å¹¶ä¸”ç¦æ­¢çª—å£æ”¹å˜å¤§å°
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);//å…³æ‰opengl API
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);//æ˜¯å¦ç¦æ­¢çª—å£æ”¹å˜å¤§å°
 
-		mWindow = glfwCreateWindow(mWidth, mHeight, "Game_Demo - VulKan", nullptr, nullptr);//´´½¨Ò»¸ö´°¿Ú
-		if (!mWindow) {//ÅĞ¶Ï´°¿ÚÊÇ·ñ´´½¨³É¹¦
+		mWindow = glfwCreateWindow(mWidth, mHeight, "Game_Demo - VulKan", nullptr, nullptr);//åˆ›å»ºä¸€ä¸ªçª—å£
+		if (!mWindow) {//åˆ¤æ–­çª—å£æ˜¯å¦åˆ›å»ºæˆåŠŸ
 			std::cerr << "Error: failed to create window" << std::endl;
 		}
 
@@ -41,16 +41,16 @@ namespace FF::Wrapper {
 	}
 
 	Window::~Window() {
-		glfwDestroyWindow(mWindow);//»ØÊÕGLFWµÄAPI
+		glfwDestroyWindow(mWindow);//å›æ”¶GLFWçš„API
 		glfwTerminate();
 	}
 
-	//ÅĞ¶Ï´°¿ÚÊÇ·ñ±»¹Ø±Õ
+	//åˆ¤æ–­çª—å£æ˜¯å¦è¢«å…³é—­
 	bool Window::shouldClose() {
 		return glfwWindowShouldClose(mWindow);
 	}
 
-	//´°¿Ú»ñÈ¡ÊÂ¼ş
+	//çª—å£è·å–äº‹ä»¶
 	void Window::pollEvents() {
 		glfwPollEvents();
 	}

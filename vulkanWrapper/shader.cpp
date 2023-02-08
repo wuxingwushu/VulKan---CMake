@@ -9,10 +9,10 @@ namespace FF::Wrapper {
 			throw std::runtime_error("Error: failed to open shader file");
 		}
 
-		const size_t fileSize = file.tellg();//»ñÈ¡ÓĞ¶àÉÙ×Ö½Ú
+		const size_t fileSize = file.tellg();//è·å–æœ‰å¤šå°‘å­—èŠ‚
 		std::vector<char> buffer(fileSize);
 
-		file.seekg(0);//»Øµ½¿ªÍ·
+		file.seekg(0);//å›åˆ°å¼€å¤´
 		file.read(buffer.data(), fileSize);
 		file.close();
 
@@ -29,7 +29,7 @@ namespace FF::Wrapper {
 		VkShaderModuleCreateInfo shaderCreateInfo{};
 		shaderCreateInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 		shaderCreateInfo.codeSize = codeBuffer.size();
-		shaderCreateInfo.pCode = reinterpret_cast<const uint32_t*>(codeBuffer.data());//Êı¾İÇ¿ÖÆ×ª»»Îªuint32_t
+		shaderCreateInfo.pCode = reinterpret_cast<const uint32_t*>(codeBuffer.data());//æ•°æ®å¼ºåˆ¶è½¬æ¢ä¸ºuint32_t
 
 		if (vkCreateShaderModule(mDevice->getDevice(), &shaderCreateInfo, nullptr, &mShaderModule) != VK_SUCCESS) {
 			throw std::runtime_error("Error: failed to create shader");

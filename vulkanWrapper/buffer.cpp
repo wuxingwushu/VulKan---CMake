@@ -68,7 +68,7 @@ namespace FF::Wrapper {
 			throw std::runtime_error("Error:failed to create buffer");
 		}
 
-		//´´½¨ÏÔ´æ¿Õ¼ä
+		//åˆ›å»ºæ˜¾å­˜ç©ºé—´
 		VkMemoryRequirements memReq{};
 		vkGetBufferMemoryRequirements(mDevice->getDevice(), mBuffer, &memReq);
 
@@ -76,7 +76,7 @@ namespace FF::Wrapper {
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memReq.size;
 
-		//·ûºÏÎÒÉÏÊöbufferÐèÇóµÄÄÚ´æÀàÐÍµÄIDÃÇ£¡0x001 0x010
+		//ç¬¦åˆæˆ‘ä¸Šè¿°bufferéœ€æ±‚çš„å†…å­˜ç±»åž‹çš„IDä»¬ï¼0x001 0x010
 		allocInfo.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits, properties);
 
 		if (vkAllocateMemory(mDevice->getDevice(), &allocInfo, nullptr, &mBufferMemory) != VK_SUCCESS) {
@@ -104,7 +104,7 @@ namespace FF::Wrapper {
 		VkPhysicalDeviceMemoryProperties memProps;
 		vkGetPhysicalDeviceMemoryProperties(mDevice->getPhysicalDevice(), &memProps);
 
-		//0x001 | 0x100 = 0x101  i = 0 µÚi¸ö¶ÔÓ¦ÀàÐÍ¾ÍÊÇ  1 << i 1   i = 1 0x010
+		//0x001 | 0x100 = 0x101  i = 0 ç¬¬iä¸ªå¯¹åº”ç±»åž‹å°±æ˜¯  1 << i 1   i = 1 0x010
 		for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
 			if ((typeFilter & (1 << i)) && ((memProps.memoryTypes[i].propertyFlags & properties) == properties)) {
 				return i;

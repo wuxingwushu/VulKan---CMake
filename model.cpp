@@ -17,20 +17,20 @@ namespace FF {
 		}
 
 
-		//printf("%d\n",int(shapes.size()));//OBJÄ£ĞÍ,µÄ·Ö¼şÊıÁ¿
+		//printf("%d\n",int(shapes.size()));//OBJæ¨¡å‹,çš„åˆ†ä»¶æ•°é‡
 		for (const auto& shape : shapes) {
-			//printf(shape.name.c_str());·Ö¼şÃû×Ö£¬¿ÉÒÔ»»³ÉÌùÍ¼Ãû×Ö
+			//printf(shape.name.c_str());åˆ†ä»¶åå­—ï¼Œå¯ä»¥æ¢æˆè´´å›¾åå­—
 			for (const auto& index : shape.mesh.indices) {
-				//ÏÈÈ¡³ö¶¥µãÎ»ÖÃÊı¾İ
+				//å…ˆå–å‡ºé¡¶ç‚¹ä½ç½®æ•°æ®
 				mPositions.push_back(attrib.vertices[3 * index.vertex_index + 2]);
 				mPositions.push_back(attrib.vertices[3 * index.vertex_index + 0]);
 				mPositions.push_back(attrib.vertices[3 * index.vertex_index + 1]);
 
-				//È¡³öuvÖµ
+				//å–å‡ºuvå€¼
 				mUVs.push_back(attrib.texcoords[2 * index.texcoord_index + 0]);
 				mUVs.push_back(1.0f - attrib.texcoords[2 * index.texcoord_index + 1]);
 
-				//Ë÷Òı
+				//ç´¢å¼•
 				mIndexDatas.push_back(mIndexDatas.size());
 			}
 		}

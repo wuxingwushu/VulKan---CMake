@@ -5,9 +5,9 @@ namespace FF::Wrapper {
 	Device::Device(Instance::Ptr instance, WindowSurface::Ptr surface) {
 		mInstance = instance;
 		mSurface = surface;
-		pickPhysicalDevice();//¸øËùÒÔÉè±¸ÆÀ·ÖÅÅĞò
-		initQueueFamilies(mPhysicalDevice);//»ñµÃ·ÖÊı×î¸ßµÄÉè±¸
-		createLogicalDevice();//ÓÃ×î¸ß·ÖÊıÉè±¸´´½¨IDÒıÓÃ
+		pickPhysicalDevice();//ç»™æ‰€ä»¥è®¾å¤‡è¯„åˆ†æ’åº
+		initQueueFamilies(mPhysicalDevice);//è·å¾—åˆ†æ•°æœ€é«˜çš„è®¾å¤‡
+		createLogicalDevice();//ç”¨æœ€é«˜åˆ†æ•°è®¾å¤‡åˆ›å»ºIDå¼•ç”¨
 	}
 
 	Device::~Device() {
@@ -18,26 +18,26 @@ namespace FF::Wrapper {
 
 	void Device::pickPhysicalDevice() {
 		uint32_t deviceCount = 0;
-		vkEnumeratePhysicalDevices(mInstance->getInstance(), &deviceCount, nullptr);//ÄãÓĞ¶àÉÙ¸öÏÔ¿¨
+		vkEnumeratePhysicalDevices(mInstance->getInstance(), &deviceCount, nullptr);//ä½ æœ‰å¤šå°‘ä¸ªæ˜¾å¡
 
 		if (deviceCount == 0) {
 			throw std::runtime_error("Error:failed to enumeratePhysicalDevice");
 		}
 
 		std::vector<VkPhysicalDevice> devices(deviceCount);
-		vkEnumeratePhysicalDevices(mInstance->getInstance(), &deviceCount, devices.data());//»ñÈ¡ÏÔ¿¨ĞÅÏ¢
+		vkEnumeratePhysicalDevices(mInstance->getInstance(), &deviceCount, devices.data());//è·å–æ˜¾å¡ä¿¡æ¯
 
 		std::multimap<int, VkPhysicalDevice> candidates;
 		for (const auto& device : devices) {
-			int score = rateDevice(device);//»ñÈ¡Ã¿Ò»ÕÅÏÔ¿¨µÄÆÀ·Ö
-			candidates.insert(std::make_pair(score, device));//ÈÃ×î¸ß·ÖµÄÔÚ×îºóÃæ
+			int score = rateDevice(device);//è·å–æ¯ä¸€å¼ æ˜¾å¡çš„è¯„åˆ†
+			candidates.insert(std::make_pair(score, device));//è®©æœ€é«˜åˆ†çš„åœ¨æœ€åé¢
 		}
 
-		if (candidates.rbegin()->first > 0 && isDeviceSuitable(candidates.rbegin()->second)) {//ÅĞ¶ÏÄÇÕÅÏÔ¿¨ÊÇ·ñ·ûºÏÒªÇó
-			mPhysicalDevice = candidates.rbegin()->second;//»ñÈ¡ÄÇÕÅÏÔ¿¨
+		if (candidates.rbegin()->first > 0 && isDeviceSuitable(candidates.rbegin()->second)) {//åˆ¤æ–­é‚£å¼ æ˜¾å¡æ˜¯å¦ç¬¦åˆè¦æ±‚
+			mPhysicalDevice = candidates.rbegin()->second;//è·å–é‚£å¼ æ˜¾å¡
 		}
 
-		if (mPhysicalDevice == VK_NULL_HANDLE) {//ÅĞ¶ÏÊÇ·ñ»ñÈ¡ºÏÊÊµÄÏÔ¿¨
+		if (mPhysicalDevice == VK_NULL_HANDLE) {//åˆ¤æ–­æ˜¯å¦è·å–åˆé€‚çš„æ˜¾å¡
 			throw std::runtime_error("Error:failed to get physical device");
 		}
 	}
@@ -45,15 +45,15 @@ namespace FF::Wrapper {
 	int Device::rateDevice(VkPhysicalDevice device) {
 		int score = 0;
 
-		//Éè±¸Ãû³Æ ÀàĞÍ Ö§³ÖvulkanµÄ°æ±¾
+		//è®¾å¤‡åç§° ç±»å‹ æ”¯æŒvulkançš„ç‰ˆæœ¬
 		VkPhysicalDeviceProperties  deviceProp;
 		vkGetPhysicalDeviceProperties(device, &deviceProp);
 
-		//ÎÆÀíÑ¹Ëõ ¸¡µãÊıÔËËãÌØĞÔ ¶àÊÓ¿ÚäÖÈ¾
+		//çº¹ç†å‹ç¼© æµ®ç‚¹æ•°è¿ç®—ç‰¹æ€§ å¤šè§†å£æ¸²æŸ“
 		VkPhysicalDeviceFeatures deviceFeatures;
 		vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
-		if (deviceProp.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {//ÊÇ·ñÊÇ¶ÀÏÔ£¬
+		if (deviceProp.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {//æ˜¯å¦æ˜¯ç‹¬æ˜¾ï¼Œ
 			score += 1000;
 		}
 
@@ -67,11 +67,11 @@ namespace FF::Wrapper {
 	}
 
 	bool Device::isDeviceSuitable(VkPhysicalDevice device) {
-		//Éè±¸Ãû³Æ ÀàĞÍ Ö§³ÖvulkanµÄ°æ±¾
+		//è®¾å¤‡åç§° ç±»å‹ æ”¯æŒvulkançš„ç‰ˆæœ¬
 		VkPhysicalDeviceProperties  deviceProp;
 		vkGetPhysicalDeviceProperties(device, &deviceProp);
 
-		//ÎÆÀíÑ¹Ëõ ¸¡µãÊıÔËËãÌØĞÔ ¶àÊÓ¿ÚäÖÈ¾
+		//çº¹ç†å‹ç¼© æµ®ç‚¹æ•°è¿ç®—ç‰¹æ€§ å¤šè§†å£æ¸²æŸ“
 		VkPhysicalDeviceFeatures deviceFeatures;
 		vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
@@ -89,11 +89,11 @@ namespace FF::Wrapper {
 
 		int i = 0;
 		for (const auto& queueFamily : queueFamilies) {
-			if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {//ÅĞ¶ÏÊÇ·ñÊÇĞèÒªäÖÈ¾µÄ
+			if (queueFamily.queueCount > 0 && (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)) {//åˆ¤æ–­æ˜¯å¦æ˜¯éœ€è¦æ¸²æŸ“çš„
 				mGraphicQueueFamily = i;
 			}
 
-			//Ñ°ÕÒÖ§³ÖÏÔÊ¾µÄ¶ÓÁĞ×å
+			//å¯»æ‰¾æ”¯æŒæ˜¾ç¤ºçš„é˜Ÿåˆ—æ—
 			VkBool32 presentSupport = VK_FALSE;
 			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, mSurface->getSurface(), &presentSupport);
 
@@ -101,8 +101,8 @@ namespace FF::Wrapper {
 				mPresentQueueFamily = i;
 			}
 
-			//ÅĞ¶ÏÉè±¸ÊÇ·ñÍêÕû
-			if (isQueueFamilyComplete()) {//ÅĞ¶Ï mGraphicQueueFamily ºÍ mPresentQueueFamily µÄ ID ÊÇ·ñÏàµÈ
+			//åˆ¤æ–­è®¾å¤‡æ˜¯å¦å®Œæ•´
+			if (isQueueFamilyComplete()) {//åˆ¤æ–­ mGraphicQueueFamily å’Œ mPresentQueueFamily çš„ ID æ˜¯å¦ç›¸ç­‰
 				break;
 			}
 
@@ -115,33 +115,33 @@ namespace FF::Wrapper {
 
 		std::set<uint32_t> queueFamilies = {mGraphicQueueFamily.value(), mPresentQueueFamily.value()};
 
-		float queuePriority = 1.0;//¶ÓÁĞÖ´ĞĞ¶ÈµÈ¼¶£¬Ô½´óÔ½¸ß
+		float queuePriority = 1.0;//é˜Ÿåˆ—æ‰§è¡Œåº¦ç­‰çº§ï¼Œè¶Šå¤§è¶Šé«˜
 
 		for (uint32_t queueFamily : queueFamilies) {
-			//ÌîĞ´´´½¨ĞÅÏ¢
+			//å¡«å†™åˆ›å»ºä¿¡æ¯
 			VkDeviceQueueCreateInfo queueCreateInfo = {};
 			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 			queueCreateInfo.queueFamilyIndex = queueFamily;
-			queueCreateInfo.queueCount = 1;//´´½¨¶àÉÙ¸ö¶ÓÁĞ
+			queueCreateInfo.queueCount = 1;//åˆ›å»ºå¤šå°‘ä¸ªé˜Ÿåˆ—
 			queueCreateInfo.pQueuePriorities = &queuePriority;
 
 			queueCreateInfos.push_back(queueCreateInfo);
 		}	
 
-		//ÌîĞ´Âß¼­Éè±¸´´½¨ĞÅÏ¢
+		//å¡«å†™é€»è¾‘è®¾å¤‡åˆ›å»ºä¿¡æ¯
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
 
 		VkDeviceCreateInfo deviceCreateInfo = {};
 		deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
-		deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());;//´´½¨¶àÉÙ¸ö¶ÓÁĞ
+		deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());;//åˆ›å»ºå¤šå°‘ä¸ªé˜Ÿåˆ—
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
 		deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(deviceRequiredExtensions.size());
 		deviceCreateInfo.ppEnabledExtensionNames = deviceRequiredExtensions.data();
 
-		//layer²ã
-		if (mInstance->getEnableValidationLayer()) {//ÊÇ·ñ¿ªÆôÁË¼ì²â
+		//layerå±‚
+		if (mInstance->getEnableValidationLayer()) {//æ˜¯å¦å¼€å¯äº†æ£€æµ‹
 			deviceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 			deviceCreateInfo.ppEnabledLayerNames = validationLayers.data();
 		}
@@ -149,7 +149,7 @@ namespace FF::Wrapper {
 			deviceCreateInfo.enabledLayerCount = 0;
 		}
 
-		if (vkCreateDevice(mPhysicalDevice, &deviceCreateInfo, nullptr, &mDevice) != VK_SUCCESS) {//ÅĞ¶ÏÉè±¸´´½¨³É¹¦Ã»ÓĞ
+		if (vkCreateDevice(mPhysicalDevice, &deviceCreateInfo, nullptr, &mDevice) != VK_SUCCESS) {//åˆ¤æ–­è®¾å¤‡åˆ›å»ºæˆåŠŸæ²¡æœ‰
 			throw std::runtime_error("Error:failed to create logical device");
 		}
 

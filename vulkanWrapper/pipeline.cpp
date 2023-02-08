@@ -31,7 +31,7 @@ namespace FF::Wrapper {
 	}
 
 	void Pipeline::build() {
-		//ÉèÖÃshader
+		//è®¾ç½®shader
 		std::vector<VkPipelineShaderStageCreateInfo> shaderCreateInfos{};
 		for (const auto& shader : mShaders) {
 			VkPipelineShaderStageCreateInfo shaderCreateInfo{};
@@ -43,7 +43,7 @@ namespace FF::Wrapper {
 			shaderCreateInfos.push_back(shaderCreateInfo);
 		}
 
-		//ÉèÖÃÊÓ¿Ú¼ô²Ã
+		//è®¾ç½®è§†å£å‰ªè£
 		mViewportState.viewportCount = static_cast<uint32_t>(mViewports.size());
 		mViewportState.pViewports = mViewports.data();
 		mViewportState.scissorCount = static_cast<uint32_t>(mScissors.size());
@@ -53,7 +53,7 @@ namespace FF::Wrapper {
 		mBlendState.attachmentCount = static_cast<uint32_t>(mBlendAttachmentStates.size());
 		mBlendState.pAttachments = mBlendAttachmentStates.data();
 
-		//layout Éú³É
+		//layout ç”Ÿæˆ
 		if (mLayout != VK_NULL_HANDLE) {
 			vkDestroyPipelineLayout(mDevice->getDevice(), mLayout, nullptr);
 		}
@@ -65,22 +65,22 @@ namespace FF::Wrapper {
 		VkGraphicsPipelineCreateInfo pipelineCreateInfo{};
 		pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
-		//ÉèÖÃshader
+		//è®¾ç½®shader
 		pipelineCreateInfo.stageCount = static_cast<uint32_t>(shaderCreateInfos.size());
 		pipelineCreateInfo.pStages = shaderCreateInfos.data();
 
-		pipelineCreateInfo.pVertexInputState = &mVertexInputState;//¶¥µãµÄÅÅ²¼Ä£Ê½
-		pipelineCreateInfo.pInputAssemblyState = &mAssemblyState;//Í¼Ôª×°Åä
-		pipelineCreateInfo.pViewportState = &mViewportState;//ÉèÖÃÊÓ¿Ú¼ô²Ã
-		pipelineCreateInfo.pRasterizationState = &mRasterState;//¹âÕ¤»¯ÉèÖÃ
-		pipelineCreateInfo.pMultisampleState = &mSampleState;//¶àÖØ²ÉÑù
-		pipelineCreateInfo.pDepthStencilState = &mDepthStencilState;//Éî¶ÈÓëÄ£°å²âÊÔ	
+		pipelineCreateInfo.pVertexInputState = &mVertexInputState;//é¡¶ç‚¹çš„æ’å¸ƒæ¨¡å¼
+		pipelineCreateInfo.pInputAssemblyState = &mAssemblyState;//å›¾å…ƒè£…é…
+		pipelineCreateInfo.pViewportState = &mViewportState;//è®¾ç½®è§†å£å‰ªè£
+		pipelineCreateInfo.pRasterizationState = &mRasterState;//å…‰æ …åŒ–è®¾ç½®
+		pipelineCreateInfo.pMultisampleState = &mSampleState;//å¤šé‡é‡‡æ ·
+		pipelineCreateInfo.pDepthStencilState = &mDepthStencilState;//æ·±åº¦ä¸æ¨¡æ¿æµ‹è¯•	
 		pipelineCreateInfo.pColorBlendState = &mBlendState;
 		pipelineCreateInfo.layout = mLayout;
 		pipelineCreateInfo.renderPass = mRenderPass->getRenderPass(); 
 		pipelineCreateInfo.subpass = 0;
 
-		//ÒÔ´æÔÚµÄpipelineÎª»ù´¡½øĞĞ´´½¨£¬»á¸ü¿ì£¬µ«ÊÇĞèÒªÖ¸¶¨flagsÎªVK_PIPELINE_CREATE_DERIVATIVE_BIT
+		//ä»¥å­˜åœ¨çš„pipelineä¸ºåŸºç¡€è¿›è¡Œåˆ›å»ºï¼Œä¼šæ›´å¿«ï¼Œä½†æ˜¯éœ€è¦æŒ‡å®šflagsä¸ºVK_PIPELINE_CREATE_DERIVATIVE_BIT
 		pipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
 		pipelineCreateInfo.basePipelineIndex = -1;
 
@@ -88,7 +88,7 @@ namespace FF::Wrapper {
 			vkDestroyPipeline(mDevice->getDevice(), mPipeline, nullptr);
 		}
 
-		//pipeline cache£¬¿ÉÒÔ½«Ïà¹ØÊı¾İ´æÈë»º´æ£¬ÔÚ¶à¸öpipelineµ±ÖĞÊ¹ÓÃ,Ò²¿ÉÒÔ´æµ½ÎÄ¼ş£¬²»Í¬³ÌĞòµ÷ÓÃ
+		//pipeline cacheï¼Œå¯ä»¥å°†ç›¸å…³æ•°æ®å­˜å…¥ç¼“å­˜ï¼Œåœ¨å¤šä¸ªpipelineå½“ä¸­ä½¿ç”¨,ä¹Ÿå¯ä»¥å­˜åˆ°æ–‡ä»¶ï¼Œä¸åŒç¨‹åºè°ƒç”¨
 		if (vkCreateGraphicsPipelines(mDevice->getDevice(), VK_NULL_HANDLE, 1, &pipelineCreateInfo, nullptr, &mPipeline) != VK_SUCCESS) {
 			throw std::runtime_error("Error:failed to create pipeline");
 		}

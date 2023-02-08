@@ -13,16 +13,16 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#define GLFW_INCLUDE_VULKAN		//¿ªÆôGLFWµÄÖ§³Ö
+#define GLFW_INCLUDE_VULKAN		//å¼€å¯GLFWçš„æ”¯æŒ
 #include <glfw3.h>
 #include <vulkan/vulkan.h>
 
 
-#include "FilePath.h"//ÒıÓÃÎÄ¼şµÄÂ·¾¶
+#include "FilePath.h"//å¼•ç”¨æ–‡ä»¶çš„è·¯å¾„
 
-//¿ªÆôµÄ²âÊÔÄ£Ê½
+//å¼€å¯çš„æµ‹è¯•æ¨¡å¼
 const std::vector<const char*> validationLayers = {
-	"VK_LAYER_KHRONOS_validation"//²âÊÔÀàĞÍ
+	"VK_LAYER_KHRONOS_validation"//æµ‹è¯•ç±»å‹
 };
 
 

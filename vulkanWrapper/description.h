@@ -11,8 +11,8 @@ namespace FF::Wrapper {
 		size_t					mSize{ 0 };
 		uint32_t				mBinding{ 0 };
 
-		//¶ÔÓÚÃ¿Ò»¸öbindingµã£¬¶¼ÓĞ¿ÉÄÜ´«Èë²»Ö¹Ò»¸öuniform£¬¿ÉÄÜÊÇÒ»¸öMatrix[]£¬ count¾Í´ú±íÁËÊı×éµÄ´óĞ¡, 
-		//ĞèÒªÊ¹ÓÃindexedDescriptorÀàĞÍ
+		//å¯¹äºæ¯ä¸€ä¸ªbindingç‚¹ï¼Œéƒ½æœ‰å¯èƒ½ä¼ å…¥ä¸æ­¢ä¸€ä¸ªuniformï¼Œå¯èƒ½æ˜¯ä¸€ä¸ªMatrix[]ï¼Œ countå°±ä»£è¡¨äº†æ•°ç»„çš„å¤§å°, 
+		//éœ€è¦ä½¿ç”¨indexedDescriptorç±»å‹
 		uint32_t				mCount{ 0 };
 		VkDescriptorType		mDescriptorType;
 		VkShaderStageFlagBits	mStage;

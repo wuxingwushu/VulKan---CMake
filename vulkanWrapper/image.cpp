@@ -48,14 +48,14 @@ namespace FF::Wrapper {
 			VK_IMAGE_TYPE_2D,
 			VK_IMAGE_TILING_OPTIMAL,
 
-			//VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT����ͼƬӵ�������ʶ��ʱ��
-			//ֻ������ʹ�õ���ͼƬ��ʱ�򣬲Ż�Ϊ�䴴���ڴ棬���Եĵ����ڴ����ɣ��ǻ�lazy��
-			//���ԣ�һ��������transient���ͱ������ڴ����ɵ�ʱ��DeviceMemory����һ����������lazy
+			//VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT，当图片拥有这个标识的时候
+			//只有真正使用到本图片的时候，才会为其创建内存，显性的调用内存生成，是会lazy的
+			//所以，一旦设置了transient，就必须在内存生成的时候DeviceMemory，加一个参数叫做lazy
 			VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
 			device->getMaxUsableSampleCount(),
 
 			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			//ע�⣬����Ϸ�����transient����ô�������Ҫ������һ��VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT
+			//注意，如果上方用了transient，那么这里就需要与运算一个VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT
 			
 			VK_IMAGE_ASPECT_COLOR_BIT
 		);
@@ -98,7 +98,7 @@ namespace FF::Wrapper {
 			throw std::runtime_error("Error:failed to create image");
 		}
 
-		//�����ڴ�ռ�
+		//分配内存空间
 		VkMemoryRequirements memReq{};
 		vkGetImageMemoryRequirements(mDevice->getDevice(), mImage, &memReq);
 
@@ -106,7 +106,7 @@ namespace FF::Wrapper {
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memReq.size;
 
-		//����������buffer������ڴ����͵�ID�ǣ�0x001 0x010
+		//符合我上述buffer需求的内存类型的ID们！0x001 0x010
 		allocInfo.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits, properties);
 
 		if (vkAllocateMemory(mDevice->getDevice(), &allocInfo, nullptr, &mImageMemory) != VK_SUCCESS) {
@@ -115,7 +115,7 @@ namespace FF::Wrapper {
 
 		vkBindImageMemory(mDevice->getDevice(), mImage, mImageMemory, 0);
 
-		//����imageview
+		//创建imageview
 		VkImageViewCreateInfo imageViewCreateInfo{};
 		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		imageViewCreateInfo.viewType = imageType == VK_IMAGE_TYPE_2D ? VK_IMAGE_VIEW_TYPE_2D : VK_IMAGE_VIEW_TYPE_3D;
@@ -150,7 +150,7 @@ namespace FF::Wrapper {
 		VkPhysicalDeviceMemoryProperties memProps;
 		vkGetPhysicalDeviceMemoryProperties(mDevice->getPhysicalDevice(), &memProps);
 
-		//0x001 | 0x100 = 0x101  i = 0 ��i����Ӧ���;���  1 << i 1   i = 1 0x010
+		//0x001 | 0x100 = 0x101  i = 0 第i个对应类型就是  1 << i 1   i = 1 0x010
 		for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
 			if ((typeFilter & (1 << i)) && ((memProps.memoryTypes[i].propertyFlags & properties) == properties)) {
 				return i;
@@ -220,8 +220,8 @@ namespace FF::Wrapper {
 
 		switch (mLayout)
 		{
-			//������޶���layout��˵��ͼƬ�ձ��������Ϸ�һ��û���κβ����������Ϸ���һ�����������
-			//���Բ�������һ���׶ε��κβ���
+			//如果是无定义layout，说明图片刚被创建，上方一定没有任何操作，所以上方是一个虚拟的依赖
+			//所以不关心上一个阶段的任何操作
 		case VK_IMAGE_LAYOUT_UNDEFINED:
 			imageMemoryBarrier.srcAccessMask = 0;
 			break;
@@ -234,12 +234,12 @@ namespace FF::Wrapper {
 
 		switch (newLayout)
 		{
-			//���Ŀ���ǣ���ͼƬת����Ϊһ83�����Ʋ�����Ŀ��ͼƬ/�ڴ棬��ô�������Ĳ���һ����д�����
+			//如果目标是，将图片转换成为一83个复制操作的目标图片/内存，那么被阻塞的操作一定是写入操作
 		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
 			imageMemoryBarrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 			break;
-			//���Ŀ���ǣ���ͼƬת����Ϊһ���ʺϱ���Ϊ�����ĸ�ʽ����ô�������Ĳ���һ���ǣ���ȡ
-			//�����Ϊtexture����ô��Դֻ�������֣�һ����ͨ��map��cpu����������һ����ͨ��stagingbuffer��������
+			//如果目标是，将图片转换成为一个适合被作为纹理的格式，那么被阻塞的操作一定是，读取
+			//如果作为texture，那么来源只能有两种，一种是通过map从cpu拷贝而来，一种是通过stagingbuffer拷贝而来
 		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:{
 			if (imageMemoryBarrier.srcAccessMask == 0) {
 				imageMemoryBarrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;

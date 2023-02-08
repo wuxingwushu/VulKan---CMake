@@ -15,7 +15,7 @@ SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}./Environment/GLFW/lib
 SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}./Environment/VulKan/Lib
 )
 
-add_subdirectory(VulKanWrapper) # 对子文件夹进行CMake
+add_subdirectory(VulKanWrapper) # 瀵瑰瓙鏂囦欢澶硅繘琛孋Make
 add_subdirectory(texture)
 
 add_executable(VulKan_CMake  ${DIRSRCS})

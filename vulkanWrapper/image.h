@@ -6,16 +6,16 @@
 
 namespace FF::Wrapper {
 	/*
-	* ·ÖÎö£ºÈç¹ûÎÒÃÇĞèÒª×öÒ»ÕÅ±»ÓÃÓÚÎÆÀí²ÉÑùµÄÍ¼Æ¬£¬ÄÇÃ´ÎÒÃÇÊ×ÏÈ
-	* ĞèÒª´ÓundefinedLayout±ä»»³ÉÎªTransferDst£¬ È»ºóÔÚÊı¾İ¿½±´
-	* Íê±ÏÖ®ºó£¬ÔÙ×ª»»³ÆÎªShaderReadOnly
+	* åˆ†æï¼šå¦‚æœæˆ‘ä»¬éœ€è¦åšä¸€å¼ è¢«ç”¨äºçº¹ç†é‡‡æ ·çš„å›¾ç‰‡ï¼Œé‚£ä¹ˆæˆ‘ä»¬é¦–å…ˆ
+	* éœ€è¦ä»undefinedLayoutå˜æ¢æˆä¸ºTransferDstï¼Œ ç„¶ååœ¨æ•°æ®æ‹·è´
+	* å®Œæ¯•ä¹‹åï¼Œå†è½¬æ¢ç§°ä¸ºShaderReadOnly
 	*/
 	
 	class Image {
 	public:
 		using Ptr = std::shared_ptr<Image>;
 
-		//¹¤¾ßº¯Êı,¾²Ì¬
+		//å·¥å…·å‡½æ•°,é™æ€
 		static Image::Ptr createDepthImage(
 			const Device::Ptr& device, 
 			const int& width,
@@ -73,8 +73,8 @@ namespace FF::Wrapper {
 
 		~Image();
 
-		//´Ë´¦ÊôÓÚ±ã½İĞ´·¨£¬·â×°ĞÔ±È½ÏºÃ£¬µ«ÊÇ¿ÉÒÔ¶ÀÁ¢×÷ÎªÒ»¸ö¹¤¾ßº¯Êı
-		//Ğ´µ½ToolµÄÀàÀïÃæ
+		//æ­¤å¤„å±äºä¾¿æ·å†™æ³•ï¼Œå°è£…æ€§æ¯”è¾ƒå¥½ï¼Œä½†æ˜¯å¯ä»¥ç‹¬ç«‹ä½œä¸ºä¸€ä¸ªå·¥å…·å‡½æ•°
+		//å†™åˆ°Toolçš„ç±»é‡Œé¢
 		void setImageLayout(
 			VkImageLayout newLayout, 
 			VkPipelineStageFlags srcStageMask, 

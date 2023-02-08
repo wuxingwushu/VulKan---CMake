@@ -13,12 +13,12 @@ namespace FF::Wrapper {
 			return std::make_shared<WindowSurface>(instance, window);
 		}
 
-		//´´½¨Surface£¬ÈÃVulKanºÍ´°¿ÚÁ´½ÓÆğÀ´£¨ÊÊÅäwin,°²×¿,µÈµÈ²»Í¬Éè±¸£©
+		//åˆ›å»ºSurfaceï¼Œè®©VulKanå’Œçª—å£é“¾æ¥èµ·æ¥ï¼ˆé€‚é…win,å®‰å“,ç­‰ç­‰ä¸åŒè®¾å¤‡ï¼‰
 		WindowSurface(Instance::Ptr instance, Window::Ptr window);
 
 		~WindowSurface();
 
-		//»ñÈ¡SurfaceµÄÖ¸Õë
+		//è·å–Surfaceçš„æŒ‡é’ˆ
 		[[nodiscard]] auto getSurface() const { return mSurface; }
 
 	private:

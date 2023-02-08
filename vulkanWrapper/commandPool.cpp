@@ -9,9 +9,9 @@ namespace FF::Wrapper {
 		createInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 		createInfo.queueFamilyIndex = device->getGraphicQueueFamily().value();
 
-		//Ö¸ÁîÐÞ¸ÄµÄÊôÐÔ¡¢Ö¸Áî³ØµÄÄÚ´æÊôÐÔ
-		//VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT: ·ÖÅä³öÀ´µÄCommandBuffer¿ÉÒÔµ¥¶À¸üÐÂ¡¢µ¥¶ÀÖØÖÃ
-		//VK_COMMAND_POOL_CREATE_TRANSIENT_BIT: Ã¿Ò»¸öCommandBuffer²»ÄÜµ¥¶Àreset£¬±ØÐë¼¯ÌåÖØÖÃ£¬vkResetCommandPool
+		//æŒ‡ä»¤ä¿®æ”¹çš„å±žæ€§ã€æŒ‡ä»¤æ± çš„å†…å­˜å±žæ€§
+		//VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT: åˆ†é…å‡ºæ¥çš„CommandBufferå¯ä»¥å•ç‹¬æ›´æ–°ã€å•ç‹¬é‡ç½®
+		//VK_COMMAND_POOL_CREATE_TRANSIENT_BIT: æ¯ä¸€ä¸ªCommandBufferä¸èƒ½å•ç‹¬resetï¼Œå¿…é¡»é›†ä½“é‡ç½®ï¼ŒvkResetCommandPool
 		createInfo.flags = flag;
 
 		if (vkCreateCommandPool(mDevice->getDevice(), &createInfo, nullptr, &mCommandPool) != VK_SUCCESS) {

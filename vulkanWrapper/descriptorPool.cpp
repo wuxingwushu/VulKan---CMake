@@ -15,19 +15,19 @@ namespace FF::Wrapper {
 	void DescriptorPool::build(std::vector<UniformParameter::Ptr>& params, const int& frameCount) {
 		//decriptor
 		//descriptorSet(decriptorA(Buffer), decriptorA, decriptorB)
-		//descriptorSet * N ÒòÎªÃèÊö·û¼¯µ±ÖĞ£¬°ó¶¨ÁËbuffer,µ±Ç°Ò»Ö¡Ìá½»µÄÊ±ºò£¬ÆäËûµÄÖ¡ÕıÔÚ»æÖÆµ±ÖĞ£¬
-		//¼´£¬uniformbuffer£¬¿ÉÄÜÕıÔÚ±»¶ÁÈ¡£¬´ËÊ±cpu¶ËµÄÏÂÒ»¸öÑ­»·£¬È´¶ÔÆä½øĞĞÁËÊı¾İµÄĞŞ¸Ä
+		//descriptorSet * N å› ä¸ºæè¿°ç¬¦é›†å½“ä¸­ï¼Œç»‘å®šäº†buffer,å½“å‰ä¸€å¸§æäº¤çš„æ—¶å€™ï¼Œå…¶ä»–çš„å¸§æ­£åœ¨ç»˜åˆ¶å½“ä¸­ï¼Œ
+		//å³ï¼Œuniformbufferï¼Œå¯èƒ½æ­£åœ¨è¢«è¯»å–ï¼Œæ­¤æ—¶cpuç«¯çš„ä¸‹ä¸€ä¸ªå¾ªç¯ï¼Œå´å¯¹å…¶è¿›è¡Œäº†æ•°æ®çš„ä¿®æ”¹
 
 		int uniformBufferCount = 0;
 		int textureCount = 0;
-		//TODO: ÎÆÀíÕâ¸öÖÖÀàµÄuniformÓĞ¶àÉÙ¸ö£¿
+		//TODO: çº¹ç†è¿™ä¸ªç§ç±»çš„uniformæœ‰å¤šå°‘ä¸ªï¼Ÿ
 
 		for (const auto& param : params) {
 			if (param->mDescriptorType == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER) { uniformBufferCount++; }
 			if (param->mDescriptorType == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER) { textureCount++; }
 		}
 
-		//ÃèÊöÃ¿Ò»ÖÖuniform¶¼ÓĞ¶àÉÙ¸ö
+		//æè¿°æ¯ä¸€ç§uniforméƒ½æœ‰å¤šå°‘ä¸ª
 		std::vector<VkDescriptorPoolSize> poolSizes{};
 
 		VkDescriptorPoolSize uniformBufferSize{};
@@ -37,10 +37,10 @@ namespace FF::Wrapper {
 
 		VkDescriptorPoolSize textureSize{};
 		textureSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-		textureSize.descriptorCount = textureCount * frameCount;//Õâ±ßµÄsizeÊÇÖ¸£¬ÓĞ¶àÉÙ¸ödescriptor
+		textureSize.descriptorCount = textureCount * frameCount;//è¿™è¾¹çš„sizeæ˜¯æŒ‡ï¼Œæœ‰å¤šå°‘ä¸ªdescriptor
 		poolSizes.push_back(textureSize);
 
-		//´´½¨pool
+		//åˆ›å»ºpool
 		VkDescriptorPoolCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 		createInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());

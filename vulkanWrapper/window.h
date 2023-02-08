@@ -15,16 +15,16 @@ namespace FF::Wrapper {
 			return std::make_shared<Window>(width, height); 
 		}
 
-		//¹¹½¨´°¿Ú
+		//æ„å»ºçª—å£
 		Window(const int &width, const int &height);
 
-		//½âÎöÊÍ·Å
+		//è§£æé‡Šæ”¾
 		~Window();
 
-		//ÅĞ¶Ï´°¿ÚÊÇ·ñ±»¹Ø±Õ
+		//åˆ¤æ–­çª—å£æ˜¯å¦è¢«å…³é—­
 		bool shouldClose();
 
-		//´°¿Ú»ñÈ¡ÊÂ¼ş
+		//çª—å£è·å–äº‹ä»¶
 		void pollEvents();
 
 		[[nodiscard]] auto getWindow() const { return mWindow; }
@@ -38,8 +38,8 @@ namespace FF::Wrapper {
 		std::weak_ptr<Application> mApp;
 
 	private:
-		int mWidth{ 0 };//´¢´æ´°¿Ú¿í¶È
-		int mHeight{ 0 };//´¢´æ´°¿Ú¸ß¶È
-		GLFWwindow* mWindow{ NULL };//´¢´æ´°¿ÚÖ¸Õë
+		int mWidth{ 0 };//å‚¨å­˜çª—å£å®½åº¦
+		int mHeight{ 0 };//å‚¨å­˜çª—å£é«˜åº¦
+		GLFWwindow* mWindow{ NULL };//å‚¨å­˜çª—å£æŒ‡é’ˆ
 	};
 }

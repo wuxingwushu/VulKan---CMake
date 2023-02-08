@@ -16,7 +16,7 @@ namespace FF::Wrapper {
 		std::vector<VkPresentModeKHR> mPresentModes;
 	};
 
-	//´´½¨Ò»ÕÅMutiSampleµÄÍ¼Æ¬£¬²¢ÇÒ¼ÓÈëµ½FrameBufferÀïÃæ
+	//åˆ›å»ºä¸€å¼ MutiSampleçš„å›¾ç‰‡ï¼Œå¹¶ä¸”åŠ å…¥åˆ°FrameBufferé‡Œé¢
 	class SwapChain {
 	public:
 		using Ptr = std::shared_ptr<SwapChain>;
@@ -69,18 +69,18 @@ namespace FF::Wrapper {
 		VkExtent2D mSwapChainExtent;
 		uint32_t mImageCount{ 0 };
 
-		//vkimageÓÉswapchain´´½¨£¬Ïú»ÙÒ²Òª½»¸øswapchain
+		//vkimageç”±swapchainåˆ›å»ºï¼Œé”€æ¯ä¹Ÿè¦äº¤ç»™swapchain
 		std::vector<VkImage> mSwapChainImages{};
 
-		//¶ÔÍ¼ÏñµÄ¹ÜÀíÆ÷¡£¹ÜÀí¿ò¼Ü
+		//å¯¹å›¾åƒçš„ç®¡ç†å™¨ã€‚ç®¡ç†æ¡†æ¶
 		std::vector<VkImageView> mSwapChainImageViews{};
 
 		std::vector<VkFramebuffer> mSwapChainFrameBuffers{};
 
-		//Éî¶ÈÍ¼Æ¬
+		//æ·±åº¦å›¾ç‰‡
 		std::vector<Image::Ptr> mDepthImages{};
 
-		//¶àÖØ²ÉÑù£¬ÖĞ¼äÍ¼Æ¬
+		//å¤šé‡é‡‡æ ·ï¼Œä¸­é—´å›¾ç‰‡
 		std::vector<Image::Ptr> mMutiSampleImages{};
 
 		Device::Ptr mDevice{ nullptr };

@@ -4,12 +4,12 @@
 
 namespace FF {
 
-	//×Ü³õÊ¼»¯
+	//æ€»åˆå§‹åŒ–
 	void Application::run() {
-		initWindow();//³õÊ¼»¯´°¿Ú
-		initVulkan();//³õÊ¼»¯Vulkan
-		mainLoop();//¿ªÆôÖ÷Ñ­»·main
-		cleanUp();//»ØÊÕ×ÊÔ´
+		initWindow();//åˆå§‹åŒ–çª—å£
+		initVulkan();//åˆå§‹åŒ–Vulkan
+		mainLoop();//å¼€å¯ä¸»å¾ªç¯main
+		cleanUp();//å›æ”¶èµ„æº
 	}
 
 	void Application::onMouseMove(double xpos, double ypos) {
@@ -20,7 +20,7 @@ namespace FF {
 		mCamera.move(moveDirection);
 	}
 
-	//´°¿ÚµÄ³õÊ¼»¯
+	//çª—å£çš„åˆå§‹åŒ–
 	void Application::initWindow() {
 		mWindow = Wrapper::Window::create(mWidth, mHeight);
 		mWindow->setApp(shared_from_this());
@@ -33,8 +33,8 @@ namespace FF {
 		mCamera.setSpeed(0.05f);
 	}
 
-	//³õÊ¼»¯Vulkan
-	//1 rendePass ¼ÓÈëpipeline 2 Éú³ÉFrameBuffer
+	//åˆå§‹åŒ–Vulkan
+	//1 rendePass åŠ å…¥pipeline 2 ç”ŸæˆFrameBuffer
 	void Application::initVulkan() {
 		mInstance = Wrapper::Instance::create(true);
 		mSurface = Wrapper::WindowSurface::create(mInstance, mWindow);
@@ -58,7 +58,7 @@ namespace FF {
 		mUniformManager = UniformManager::create();
 		mUniformManager->init(mDevice, mCommandPool, mSwapChain->getImageCount());
 
-		//´´½¨Ä£ĞÍ
+		//åˆ›å»ºæ¨¡å‹
 		mModel = Model::create(mDevice);
 		mModel->loadModel(kokoro_obj, mDevice);
 		//mModel->setModelMatrix(glm::rotate(glm::mat4(1.0f), glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f)));
@@ -74,7 +74,7 @@ namespace FF {
 	}
 
 	void Application::createPipeline() {
-		//ÉèÖÃÊÓ¿Ú
+		//è®¾ç½®è§†å£
 		VkViewport viewport = {};
 		viewport.x = 0.0f;
 		viewport.y = (float)mHeight;
@@ -91,7 +91,7 @@ namespace FF {
 		mPipeline->setScissors({scissor});
 
 
-		//ÉèÖÃshader
+		//è®¾ç½®shader
 		std::vector<Wrapper::Shader::Ptr> shaderGroup{};
 
 		auto shaderVertex = Wrapper::Shader::create(mDevice, vs_spv, VK_SHADER_STAGE_VERTEX_BIT, "main");
@@ -102,7 +102,7 @@ namespace FF {
 		
 		mPipeline->setShaderGroup(shaderGroup);
 
-		//¶¥µãµÄÅÅ²¼Ä£Ê½
+		//é¡¶ç‚¹çš„æ’å¸ƒæ¨¡å¼
 		auto vertexBindingDes = mModel->getVertexInputBindingDescriptions();
 		auto attributeDes = mModel->getAttributeDescriptions();
 
@@ -111,15 +111,15 @@ namespace FF {
 		mPipeline->mVertexInputState.vertexAttributeDescriptionCount = attributeDes.size();
 		mPipeline->mVertexInputState.pVertexAttributeDescriptions = attributeDes.data();
 
-		//Í¼Ôª×°Åä
+		//å›¾å…ƒè£…é…
 		mPipeline->mAssemblyState.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		mPipeline->mAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 		mPipeline->mAssemblyState.primitiveRestartEnable = VK_FALSE;
 
-		//¹âÕ¤»¯ÉèÖÃ
+		//å…‰æ …åŒ–è®¾ç½®
 		mPipeline->mRasterState.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
-		mPipeline->mRasterState.polygonMode = VK_POLYGON_MODE_FILL;//ÆäËûÄ£Ê½ĞèÒª¿ªÆôgpuÌØĞÔ
-		mPipeline->mRasterState.lineWidth = 1.0f;//´óÓÚ1ĞèÒª¿ªÆôgpuÌØĞÔ
+		mPipeline->mRasterState.polygonMode = VK_POLYGON_MODE_FILL;//å…¶ä»–æ¨¡å¼éœ€è¦å¼€å¯gpuç‰¹æ€§
+		mPipeline->mRasterState.lineWidth = 1.0f;//å¤§äº1éœ€è¦å¼€å¯gpuç‰¹æ€§
 		mPipeline->mRasterState.cullMode = VK_CULL_MODE_BACK_BIT;
 		mPipeline->mRasterState.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 
@@ -128,7 +128,7 @@ namespace FF {
 		mPipeline->mRasterState.depthBiasClamp = 0.0f;
 		mPipeline->mRasterState.depthBiasSlopeFactor = 0.0f;
 
-		//¶àÖØ²ÉÑù
+		//å¤šé‡é‡‡æ ·
 		mPipeline->mSampleState.sampleShadingEnable = VK_FALSE;
 		mPipeline->mSampleState.rasterizationSamples = mDevice->getMaxUsableSampleCount();
 		mPipeline->mSampleState.minSampleShading = 1.0f;
@@ -136,14 +136,14 @@ namespace FF {
 		mPipeline->mSampleState.alphaToCoverageEnable = VK_FALSE;
 		mPipeline->mSampleState.alphaToOneEnable = VK_FALSE;
 
-		//Éî¶ÈÓëÄ£°å²âÊÔ
+		//æ·±åº¦ä¸æ¨¡æ¿æµ‹è¯•
 		mPipeline->mDepthStencilState.depthTestEnable = VK_TRUE;
 		mPipeline->mDepthStencilState.depthWriteEnable = VK_TRUE;
 		mPipeline->mDepthStencilState.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
 
-		//ÑÕÉ«»ìºÏ
+		//é¢œè‰²æ··åˆ
 
-		//Õâ¸öÊÇÑÕÉ«»ìºÏÑÚÂë£¬µÃµ½µÄ»ìºÏ½á¹û£¬°´ÕÕÍ¨µÀÓëÑÚÂë½øĞĞAND²Ù×÷£¬Êä³ö
+		//è¿™ä¸ªæ˜¯é¢œè‰²æ··åˆæ©ç ï¼Œå¾—åˆ°çš„æ··åˆç»“æœï¼ŒæŒ‰ç…§é€šé“ä¸æ©ç è¿›è¡ŒANDæ“ä½œï¼Œè¾“å‡º
 		VkPipelineColorBlendAttachmentState blendAttachment{};
 		blendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT |
 			VK_COLOR_COMPONENT_G_BIT |
@@ -161,20 +161,20 @@ namespace FF {
 
 		mPipeline->pushBlendAttachment(blendAttachment);
 
-		//1 blendÓĞÁ½ÖÖ¼ÆËã·½Ê½£¬µÚÒ»ÖÖÈçÉÏËùÊö£¬½øĞĞalphaÎª»ù´¡µÄ¼ÆËã£¬µÚ¶şÖÖ½øĞĞÎ»ÔËËã
-		//2 Èç¹û¿ªÆôÁËlogicOp£¬ÄÇÃ´ÉÏ·½ÉèÖÃµÄalphaÎª»ù´¡µÄÔËËã£¬Ê§Áé
-		//3 ColorWriteÑÚÂë£¬ÈÔÈ»ÓĞĞ§£¬¼´±ã¿ªÆôÁËlogicOP
-		//4 ÒòÎª£¬ÎÒÃÇ¿ÉÄÜ»áÓĞ¶à¸öFrameBufferÊä³ö£¬ËùÒÔ¿ÉÄÜĞèÒª¶à¸öBlendAttachment
+		//1 blendæœ‰ä¸¤ç§è®¡ç®—æ–¹å¼ï¼Œç¬¬ä¸€ç§å¦‚ä¸Šæ‰€è¿°ï¼Œè¿›è¡Œalphaä¸ºåŸºç¡€çš„è®¡ç®—ï¼Œç¬¬äºŒç§è¿›è¡Œä½è¿ç®—
+		//2 å¦‚æœå¼€å¯äº†logicOpï¼Œé‚£ä¹ˆä¸Šæ–¹è®¾ç½®çš„alphaä¸ºåŸºç¡€çš„è¿ç®—ï¼Œå¤±çµ
+		//3 ColorWriteæ©ç ï¼Œä»ç„¶æœ‰æ•ˆï¼Œå³ä¾¿å¼€å¯äº†logicOP
+		//4 å› ä¸ºï¼Œæˆ‘ä»¬å¯èƒ½ä¼šæœ‰å¤šä¸ªFrameBufferè¾“å‡ºï¼Œæ‰€ä»¥å¯èƒ½éœ€è¦å¤šä¸ªBlendAttachment
 		mPipeline->mBlendState.logicOpEnable = VK_FALSE;
 		mPipeline->mBlendState.logicOp = VK_LOGIC_OP_COPY;
 
-		//ÅäºÏblendAttachmentµÄfactorÓëoperation
+		//é…åˆblendAttachmentçš„factorä¸operation
 		mPipeline->mBlendState.blendConstants[0] = 0.0f;
 		mPipeline->mBlendState.blendConstants[1] = 0.0f;
 		mPipeline->mBlendState.blendConstants[2] = 0.0f;
 		mPipeline->mBlendState.blendConstants[3] = 0.0f;
 
-		//uniformµÄ´«µİ
+		//uniformçš„ä¼ é€’
 		mPipeline->mLayoutState.setLayoutCount = 1;
 
 		auto layout = mUniformManager->getDescriptorLayout()->getLayout();
@@ -186,9 +186,9 @@ namespace FF {
 	}
 
 	void Application::createRenderPass() {
-		//0£º×îÖÕÊä³öÍ¼Æ¬ 1£ºResolveÍ¼Æ¬£¨MutiSample£© 2£ºDepthÍ¼Æ¬
+		//0ï¼šæœ€ç»ˆè¾“å‡ºå›¾ç‰‡ 1ï¼šResolveå›¾ç‰‡ï¼ˆMutiSampleï¼‰ 2ï¼šDepthå›¾ç‰‡
 
-		//0ºÅÎ»£ºÊÇSwapChainÔ­À´ÄÇÕÅÍ¼Æ¬£¬ÊÇResolveµÄÄ¿±êµã£¬¼´ĞèÒªÉèÖÃµ½SubPassµÄResolveµ±ÖĞ
+		//0å·ä½ï¼šæ˜¯SwapChainåŸæ¥é‚£å¼ å›¾ç‰‡ï¼Œæ˜¯Resolveçš„ç›®æ ‡ç‚¹ï¼Œå³éœ€è¦è®¾ç½®åˆ°SubPassçš„Resolveå½“ä¸­
 		VkAttachmentDescription finalAttachmentDes{};
 		finalAttachmentDes.format = mSwapChain->getFormat();
 		finalAttachmentDes.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -201,7 +201,7 @@ namespace FF {
 
 		mRenderPass->addAttachment(finalAttachmentDes);
 
-		//1ºÅÎ»£º±»ResolveµÄÍ¼Æ¬£¬¼´¶àÖØ²ÉÑùµÄÔ´Í·Í¼Æ¬£¬Ò²¼´ÑÕÉ«Êä³öµÄÄ¿±êÍ¼Æ¬
+		//1å·ä½ï¼šè¢«Resolveçš„å›¾ç‰‡ï¼Œå³å¤šé‡é‡‡æ ·çš„æºå¤´å›¾ç‰‡ï¼Œä¹Ÿå³é¢œè‰²è¾“å‡ºçš„ç›®æ ‡å›¾ç‰‡
 		VkAttachmentDescription MutiAttachmentDes{};
 		MutiAttachmentDes.format = mSwapChain->getFormat();
 		MutiAttachmentDes.samples = mDevice->getMaxUsableSampleCount();
@@ -215,7 +215,7 @@ namespace FF {
 		mRenderPass->addAttachment(MutiAttachmentDes);
 
 
-		//3ºÅÎ»£ºÉî¶È»º´æattachment
+		//3å·ä½ï¼šæ·±åº¦ç¼“å­˜attachment
 		VkAttachmentDescription depthAttachmentDes{};
 		depthAttachmentDes.format = Wrapper::Image::findDepthFormat(mDevice);
 		depthAttachmentDes.samples = mDevice->getMaxUsableSampleCount();
@@ -228,7 +228,7 @@ namespace FF {
 
 		mRenderPass->addAttachment(depthAttachmentDes);
 
-		//¶ÔÓÚ»­²¼µÄË÷ÒıÉèÖÃÒÔ¼°¸ñÊ½ÒªÇó
+		//å¯¹äºç”»å¸ƒçš„ç´¢å¼•è®¾ç½®ä»¥åŠæ ¼å¼è¦æ±‚
 		VkAttachmentReference finalAttachmentRef{};
 		finalAttachmentRef.attachment = 0;
 		finalAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
@@ -241,7 +241,7 @@ namespace FF {
 		depthAttachmentRef.attachment = 2;
 		depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
-		//´´½¨×ÓÁ÷³Ì
+		//åˆ›å»ºå­æµç¨‹
 		Wrapper::SubPass subPass{};
 		subPass.addColorAttachmentReference(mutiAttachmentRef);
 		subPass.setDepthStencilAttachmentReference(depthAttachmentRef);
@@ -251,7 +251,7 @@ namespace FF {
 
 		mRenderPass->addSubPass(subPass);
 
-		//×ÓÁ÷³ÌÖ®¼äµÄÒÀÀµ¹ØÏµ
+		//å­æµç¨‹ä¹‹é—´çš„ä¾èµ–å…³ç³»
 		VkSubpassDependency dependency{};
 		dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
 		dependency.dstSubpass = 0;
@@ -278,7 +278,7 @@ namespace FF {
 			renderBeginInfo.renderArea.offset = { 0, 0 };
 			renderBeginInfo.renderArea.extent = mSwapChain->getExtent();
 
-			//0£ºfinal   1£ºmuti   2£ºdepth
+			//0ï¼šfinal   1ï¼šmuti   2ï¼šdepth
 			std::vector< VkClearValue> clearColors{};
 			VkClearValue finalClearColor{};
 			finalClearColor.color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -370,9 +370,9 @@ namespace FF {
 		mFences.clear();
 	}
 
-	//Ö÷Ñ­»·main
+	//ä¸»å¾ªç¯main
 	void Application::mainLoop() {
-		while (!mWindow->shouldClose()) {//´°¿Ú±»¹Ø±Õ½áÊøÑ­»·
+		while (!mWindow->shouldClose()) {//çª—å£è¢«å…³é—­ç»“æŸå¾ªç¯
 			mWindow->pollEvents();
 			mWindow->processEvent();
 
@@ -390,10 +390,10 @@ namespace FF {
 	}
 
 	void Application::render() {
-		//µÈ´ıµ±Ç°ÒªÌá½»µÄCommandBufferÖ´ĞĞÍê±Ï
+		//ç­‰å¾…å½“å‰è¦æäº¤çš„CommandBufferæ‰§è¡Œå®Œæ¯•
 		mFences[mCurrentFrame]->block();
 
-		//»ñÈ¡½»»»Á´µ±ÖĞµÄÏÂÒ»Ö¡
+		//è·å–äº¤æ¢é“¾å½“ä¸­çš„ä¸‹ä¸€å¸§
 		uint32_t imageIndex{ 0 };
 		VkResult result = vkAcquireNextImageKHR(
 			mDevice->getDevice(),
@@ -403,21 +403,21 @@ namespace FF {
 			VK_NULL_HANDLE,
 			&imageIndex);
 
-		//´°Ìå·¢ÉúÁË³ß´ç±ä»¯
+		//çª—ä½“å‘ç”Ÿäº†å°ºå¯¸å˜åŒ–
 		if (result == VK_ERROR_OUT_OF_DATE_KHR) {
 			recreateSwapChain();
 			mWindow->mWindowResized = false;
-		}//VK_SUBOPTIMAL_KHRµÃµ½ÁËÒ»ÕÅÈÏÎª¿ÉÓÃµÄÍ¼Ïñ£¬µ«ÊÇ±íÃæ¸ñÊ½²»Ò»¶¨Æ¥Åä
+		}//VK_SUBOPTIMAL_KHRå¾—åˆ°äº†ä¸€å¼ è®¤ä¸ºå¯ç”¨çš„å›¾åƒï¼Œä½†æ˜¯è¡¨é¢æ ¼å¼ä¸ä¸€å®šåŒ¹é…
 		else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
 			throw std::runtime_error("Error: failed to acquire next image");
 		}
 
-		//¹¹½¨Ìá½»ĞÅÏ¢
+		//æ„å»ºæäº¤ä¿¡æ¯
 		VkSubmitInfo submitInfo{};
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		
 
-		//Í¬²½ĞÅÏ¢£¬äÖÈ¾¶ÔÓÚÏÔÊ¾Í¼ÏñµÄÒÀÀµ£¬ÏÔÊ¾Íê±Ïºó£¬²ÅÄÜÊä³öÑÕÉ«
+		//åŒæ­¥ä¿¡æ¯ï¼Œæ¸²æŸ“å¯¹äºæ˜¾ç¤ºå›¾åƒçš„ä¾èµ–ï¼Œæ˜¾ç¤ºå®Œæ¯•åï¼Œæ‰èƒ½è¾“å‡ºé¢œè‰²
 		VkSemaphore waitSemaphores[] = { mImageAvailableSemaphores[mCurrentFrame]->getSemaphore() };
 		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 
@@ -425,7 +425,7 @@ namespace FF {
 		submitInfo.pWaitSemaphores = waitSemaphores;
 		submitInfo.pWaitDstStageMask = waitStages;
 
-		//Ö¸¶¨Ìá½»ÄÄĞ©ÃüÁî
+		//æŒ‡å®šæäº¤å“ªäº›å‘½ä»¤
 		auto commandBuffer = mCommandBuffers[imageIndex]->getCommandBuffer();
 		submitInfo.commandBufferCount = 1;
 		submitInfo.pCommandBuffers = &commandBuffer;
@@ -451,9 +451,9 @@ namespace FF {
 
 		presentInfo.pImageIndices = &imageIndex;
 
-		result = vkQueuePresentKHR(mDevice->getPresentQueue(), &presentInfo);//¿ªÊ¼äÖÈ¾
+		result = vkQueuePresentKHR(mDevice->getPresentQueue(), &presentInfo);//å¼€å§‹æ¸²æŸ“
 
-		//ÓÉÓÚÇı¶¯³ÌĞò²»Ò»¶¨¾«×¼£¬ËùÒÔÎÒÃÇ»¹ĞèÒªÓÃ×Ô¼ºµÄ±êÖ¾Î»ÅĞ¶Ï
+		//ç”±äºé©±åŠ¨ç¨‹åºä¸ä¸€å®šç²¾å‡†ï¼Œæ‰€ä»¥æˆ‘ä»¬è¿˜éœ€è¦ç”¨è‡ªå·±çš„æ ‡å¿—ä½åˆ¤æ–­
 		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || mWindow->mWindowResized) {
 			recreateSwapChain();
 			mWindow->mWindowResized = false;
@@ -466,7 +466,7 @@ namespace FF {
 	}
 
 
-	//»ØÊÕ×ÊÔ´
+	//å›æ”¶èµ„æº
 	void Application::cleanUp() {
 
 		mPipeline.reset();

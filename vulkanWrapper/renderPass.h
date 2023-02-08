@@ -3,17 +3,17 @@
 #include "../base.h"
 #include "device.h"
 
-//ÓÃÓÚ»ã¼¯ËùÓĞÒªäÖÈ¾µÄÎïÌå£¬È»ºóÒ»´ÎĞÔÌá½»äÖÈ¾
+//ç”¨äºæ±‡é›†æ‰€æœ‰è¦æ¸²æŸ“çš„ç‰©ä½“ï¼Œç„¶åä¸€æ¬¡æ€§æäº¤æ¸²æŸ“
 
 namespace FF::Wrapper {
-	//Ë¼Â·
+	//æ€è·¯
 	/*
 	* 1 attachment  
-	VkAttachmentDescription£ºÃèÊöÒ»¸öÑÕÉ«»òÕßÉî¶ÈÄ£°å¸½×ÅµÄ½á¹¹£¬Ëû²¢²»ÊÇÒ»¸öÕæÕıµÄ¸½×Å£¬¶øÊÇÒ»ÖÖµ¥´¿µÄÃèÊö
-	VkAttachmentDescription1 VkAttachmentDescription2 VkAttachmentDescription3 VkAttachmentDescription4£¨Éî¶ÈÄ£°å£©£¬¸æËßÍâ½ç£¬ÎÒÒªÊ²Ã´
-	VkAttachmentReference ËµÃ÷±¾¸öSubPass ĞèÒªµÄattachmentÆäÖĞµÄÒ»¸ö£¬ÕâÒ»¸öµÄÊı×éË÷ÒıidÊÇ¶àÉÙ£¬ÕâÒ»¸ö¸½×ÅµÄÍ¼Æ¬ÆÚÍû¸ñÊ½ÊÇÊ²Ã´
-	VkSubpassDescriptionÓÃÀ´ÌîĞ´Ò»¸ö×ÓPassµÄÃèÊö½á¹¹
-	VkSubpassDependency£ºÃèÊö²»Í¬µÄ×ÓÁ÷³ÌÖ®¼äµÄÒÀÀµ¹ØÏµ
+	VkAttachmentDescriptionï¼šæè¿°ä¸€ä¸ªé¢œè‰²æˆ–è€…æ·±åº¦æ¨¡æ¿é™„ç€çš„ç»“æ„ï¼Œä»–å¹¶ä¸æ˜¯ä¸€ä¸ªçœŸæ­£çš„é™„ç€ï¼Œè€Œæ˜¯ä¸€ç§å•çº¯çš„æè¿°
+	VkAttachmentDescription1 VkAttachmentDescription2 VkAttachmentDescription3 VkAttachmentDescription4ï¼ˆæ·±åº¦æ¨¡æ¿ï¼‰ï¼Œå‘Šè¯‰å¤–ç•Œï¼Œæˆ‘è¦ä»€ä¹ˆ
+	VkAttachmentReference è¯´æ˜æœ¬ä¸ªSubPass éœ€è¦çš„attachmentå…¶ä¸­çš„ä¸€ä¸ªï¼Œè¿™ä¸€ä¸ªçš„æ•°ç»„ç´¢å¼•idæ˜¯å¤šå°‘ï¼Œè¿™ä¸€ä¸ªé™„ç€çš„å›¾ç‰‡æœŸæœ›æ ¼å¼æ˜¯ä»€ä¹ˆ
+	VkSubpassDescriptionç”¨æ¥å¡«å†™ä¸€ä¸ªå­Passçš„æè¿°ç»“æ„
+	VkSubpassDependencyï¼šæè¿°ä¸åŒçš„å­æµç¨‹ä¹‹é—´çš„ä¾èµ–å…³ç³»
 	*/
 
 	class SubPass {

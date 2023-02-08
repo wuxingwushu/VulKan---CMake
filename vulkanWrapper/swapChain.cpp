@@ -14,63 +14,63 @@ namespace FF::Wrapper {
 
 		auto swapChainSupportInfo = querySwapChainSupportInfo();
 
-		//Ñ¡Ôñvkformat
+		//é€‰æ‹©vkformat
 		VkSurfaceFormatKHR surfaceFormat = chooseSurfaceFormat(swapChainSupportInfo.mFormats);
 
-		//Ñ¡ÔñprsentMode
+		//é€‰æ‹©prsentMode
 		VkPresentModeKHR presentMode = chooseSurfacePresentMode(swapChainSupportInfo.mPresentModes);
 
-		//Ñ¡Ôñ½»»»Á´·¶Î§
+		//é€‰æ‹©äº¤æ¢é“¾èŒƒå›´
 		VkExtent2D extent = chooseExtent(swapChainSupportInfo.mCapabilities);
 
-		//ÉèÖÃÍ¼Ïñ»º³åÊıÁ¿
+		//è®¾ç½®å›¾åƒç¼“å†²æ•°é‡
 		mImageCount = swapChainSupportInfo.mCapabilities.minImageCount + 1;
 
-		//Èç¹ûmaxImageCountÎª0£¬ËµÃ÷Ö»ÒªÄÚ´æ²»±¬Õ¨£¬ÎÒÃÇ¾Í¿ÉÒÔÉè¶¨ÈÎÒâÊıÁ¿µÄimages
+		//å¦‚æœmaxImageCountä¸º0ï¼Œè¯´æ˜åªè¦å†…å­˜ä¸çˆ†ç‚¸ï¼Œæˆ‘ä»¬å°±å¯ä»¥è®¾å®šä»»æ„æ•°é‡çš„images
 		if (swapChainSupportInfo.mCapabilities.maxImageCount > 0 && mImageCount > swapChainSupportInfo.mCapabilities.maxImageCount) {
 			mImageCount = swapChainSupportInfo.mCapabilities.maxImageCount;
 		}
 
-		//ÌîĞ´´´½¨ĞÅÏ¢, ´Ë´¦³õÊ¼»¯±ØĞëÖÃ¿Õ£¬ÒòÎª»áÓĞÍü¼ÇÉèÖÃµÄ±äÁ¿£¬ÖµÎªËæ»ú
+		//å¡«å†™åˆ›å»ºä¿¡æ¯, æ­¤å¤„åˆå§‹åŒ–å¿…é¡»ç½®ç©ºï¼Œå› ä¸ºä¼šæœ‰å¿˜è®°è®¾ç½®çš„å˜é‡ï¼Œå€¼ä¸ºéšæœº
 		VkSwapchainCreateInfoKHR createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		createInfo.surface = mSurface->getSurface();
-		createInfo.minImageCount = mImageCount;//ÎÒÏÖÔÚÉèÖÃµÄÊıÁ¿£¬ÊÊºÏµ±Ç°Çé¿ö£¬µ«ÊÇ¿ÉÄÜ»áµÃµ½¸ü¶à
+		createInfo.minImageCount = mImageCount;//æˆ‘ç°åœ¨è®¾ç½®çš„æ•°é‡ï¼Œé€‚åˆå½“å‰æƒ…å†µï¼Œä½†æ˜¯å¯èƒ½ä¼šå¾—åˆ°æ›´å¤š
 		createInfo.imageFormat = surfaceFormat.format;
 		createInfo.imageColorSpace = surfaceFormat.colorSpace;
 		createInfo.imageExtent = extent;
 
-		//Í¼Ïñ°üº¬µÄ²ã´Î£¬VRÒ»°ã»áÓĞÁ½¸ö
+		//å›¾åƒåŒ…å«çš„å±‚æ¬¡ï¼ŒVRä¸€èˆ¬ä¼šæœ‰ä¸¤ä¸ª
 		createInfo.imageArrayLayers = 1;
 
-		//½»»»Á´Éú³ÉµÄÍ¼Ïñ£¬µ½µ×ÓÃÓÚºÎ´¦
+		//äº¤æ¢é“¾ç”Ÿæˆçš„å›¾åƒï¼Œåˆ°åº•ç”¨äºä½•å¤„
 		createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-		//ÒòÎª½»»»Á´µÄÍ¼Ïñ£¬»á±»ÓÃÀ´äÖÈ¾»òÕßÏÔÊ¾£¬¶øäÖÈ¾¸úÏÔÊ¾·Ö±ğÊ¹ÓÃ²»Í¬µÄ¶ÓÁĞ£¬ËùÒÔ»á³öÏÖÁ½¸ö¶ÓÁĞÊ¹ÓÃÍ¬Ò»¸ö½»»»Á´µÄÇé¿ö
-		//ÄÇÃ´ÎÒÃÇ¾ÍĞèÒªÉèÖÃ£¬ÈÃ½»»»Á´µÄÍ¼Ïñ£¬±»Á½¸ö¶ÓÁĞÊ¹ÓÃ¼æÈİ
+		//å› ä¸ºäº¤æ¢é“¾çš„å›¾åƒï¼Œä¼šè¢«ç”¨æ¥æ¸²æŸ“æˆ–è€…æ˜¾ç¤ºï¼Œè€Œæ¸²æŸ“è·Ÿæ˜¾ç¤ºåˆ†åˆ«ä½¿ç”¨ä¸åŒçš„é˜Ÿåˆ—ï¼Œæ‰€ä»¥ä¼šå‡ºç°ä¸¤ä¸ªé˜Ÿåˆ—ä½¿ç”¨åŒä¸€ä¸ªäº¤æ¢é“¾çš„æƒ…å†µ
+		//é‚£ä¹ˆæˆ‘ä»¬å°±éœ€è¦è®¾ç½®ï¼Œè®©äº¤æ¢é“¾çš„å›¾åƒï¼Œè¢«ä¸¤ä¸ªé˜Ÿåˆ—ä½¿ç”¨å…¼å®¹
 
 		std::vector<uint32_t> queueFamilies = { mDevice->getGraphicQueueFamily().value() , mDevice->getPresentQueueFamily().value() };
 
 		if (mDevice->getGraphicQueueFamily().value() == mDevice->getPresentQueueFamily().value()) {
-			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;//±»Ä³Ò»¸ö¶ÓÁĞ×å¶ÀÕ¼£¬ĞÔÄÜ»á¸üºÃ
+			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;//è¢«æŸä¸€ä¸ªé˜Ÿåˆ—æ—ç‹¬å ï¼Œæ€§èƒ½ä¼šæ›´å¥½
 			createInfo.queueFamilyIndexCount = 0;
 			createInfo.pQueueFamilyIndices = nullptr;
 		}
 		else {
-			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;//¿ÉÒÔ±»¹²ÏíµÄÄ£Ê½
+			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;//å¯ä»¥è¢«å…±äº«çš„æ¨¡å¼
 			createInfo.queueFamilyIndexCount = static_cast<uint32_t>(queueFamilies.size());
 			createInfo.pQueueFamilyIndices = queueFamilies.data();
 		}
 
-		//½»»»Á´µÄÍ¼Ïñ³õÊ¼±ä»¯£¬±ÈÈçÊÇ·ñĞèÒª·´×ª
+		//äº¤æ¢é“¾çš„å›¾åƒåˆå§‹å˜åŒ–ï¼Œæ¯”å¦‚æ˜¯å¦éœ€è¦åè½¬
 		createInfo.preTransform = swapChainSupportInfo.mCapabilities.currentTransform;
 
-		//²»ÓëÔ­À´´°Ìåµ±ÖĞµÄÄÚÈİ»ìºÏ
+		//ä¸ä¸åŸæ¥çª—ä½“å½“ä¸­çš„å†…å®¹æ··åˆ
 		createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
 		createInfo.presentMode = presentMode;
 
-		//µ±Ç°´°Ìå±»µ²×¡µÄ²¿·Ö£¬²»ÓÃ»æÖÆ,µ«ÊÇ»áÓ°Ïìµ½»Ø¶Á£¡
+		//å½“å‰çª—ä½“è¢«æŒ¡ä½çš„éƒ¨åˆ†ï¼Œä¸ç”¨ç»˜åˆ¶,ä½†æ˜¯ä¼šå½±å“åˆ°å›è¯»ï¼
 		createInfo.clipped = VK_TRUE;
 
 		if (vkCreateSwapchainKHR(mDevice->getDevice(), &createInfo, nullptr, &mSwapChain) != VK_SUCCESS) {
@@ -80,19 +80,19 @@ namespace FF::Wrapper {
 		mSwapChainFormat = surfaceFormat.format;
 		mSwapChainExtent = extent;
 
-		//ÏµÍ³¿ÉÄÜ´´½¨¸ü¶àµÄimage£¬µ±Ç°µÄimageCountÊÇ×îĞ¡ÊıÁ¿
+		//ç³»ç»Ÿå¯èƒ½åˆ›å»ºæ›´å¤šçš„imageï¼Œå½“å‰çš„imageCountæ˜¯æœ€å°æ•°é‡
 		vkGetSwapchainImagesKHR(mDevice->getDevice(), mSwapChain, &mImageCount, nullptr);
 		mSwapChainImages.resize(mImageCount);
 
 		vkGetSwapchainImagesKHR(mDevice->getDevice(), mSwapChain, &mImageCount, mSwapChainImages.data());
 
-		//´´½¨imageView
+		//åˆ›å»ºimageView
 		mSwapChainImageViews.resize(mImageCount);
 		for (int i = 0; i < mImageCount; ++i) {
 			mSwapChainImageViews[i] = createImageView(mSwapChainImages[i], mSwapChainFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 		}
 
-		//´´½¨depth image
+		//åˆ›å»ºdepth image
 		mDepthImages.resize(mImageCount);
 
 		VkImageSubresourceRange region{};
@@ -119,7 +119,7 @@ namespace FF::Wrapper {
 			);
 		}
 
-		//´´½¨MutiSampleImages
+		//åˆ›å»ºMutiSampleImages
 		mMutiSampleImages.resize(mImageCount);
 
 		VkImageSubresourceRange regionMutiSample{};
@@ -148,12 +148,12 @@ namespace FF::Wrapper {
 	}
 
 	void SwapChain::createFrameBuffers(const RenderPass::Ptr& renderPass) {
-		//´´½¨FrameBuffer
+		//åˆ›å»ºFrameBuffer
 		mSwapChainFrameBuffers.resize(mImageCount);
 		for (int i = 0; i < mImageCount; ++i) {
-			//FrameBuffer ÀïÃæÎªÒ»Ö¡µÄÊı¾İ£¬±ÈÈçÓĞn¸öColorAttachment 1¸öDepthStencilAttachment£¬
-			//ÕâĞ©¶«Î÷µÄ¼¯ºÏÎªÒ»¸öFrameBuffer£¬ËÍÈë¹ÜÏß£¬¾Í»áĞÎ³ÉÒ»¸öGPUµÄ¼¯ºÏ£¬ÓÉÉÏ·½µÄAttachments¹¹³É
-			//×¢ÒâÊı×éµ±ÖĞµÄË³Ğò£¡£¡±ØĞëÓëRenderPassÆ¥Åä
+			//FrameBuffer é‡Œé¢ä¸ºä¸€å¸§çš„æ•°æ®ï¼Œæ¯”å¦‚æœ‰nä¸ªColorAttachment 1ä¸ªDepthStencilAttachmentï¼Œ
+			//è¿™äº›ä¸œè¥¿çš„é›†åˆä¸ºä¸€ä¸ªFrameBufferï¼Œé€å…¥ç®¡çº¿ï¼Œå°±ä¼šå½¢æˆä¸€ä¸ªGPUçš„é›†åˆï¼Œç”±ä¸Šæ–¹çš„Attachmentsæ„æˆ
+			//æ³¨æ„æ•°ç»„å½“ä¸­çš„é¡ºåºï¼ï¼å¿…é¡»ä¸RenderPassåŒ¹é…
 			std::array<VkImageView, 3> attachments = { 
 				mSwapChainImageViews[i], 
 				mMutiSampleImages[i]->getImageView(),
@@ -195,10 +195,10 @@ namespace FF::Wrapper {
 
 	SwapChainSupportInfo SwapChain::querySwapChainSupportInfo() {
 		SwapChainSupportInfo info;
-		//»ñÈ¡»ù´¡ÌØĞÔ
+		//è·å–åŸºç¡€ç‰¹æ€§
 		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(mDevice->getPhysicalDevice(), mSurface->getSurface(), &info.mCapabilities);
 
-		//»ñÈ¡±íÃæÖ§³Ö¸ñÊ½
+		//è·å–è¡¨é¢æ”¯æŒæ ¼å¼
 		uint32_t formatCount = 0;
 		vkGetPhysicalDeviceSurfaceFormatsKHR(mDevice->getPhysicalDevice(), mSurface->getSurface(), &formatCount, nullptr);
 
@@ -207,7 +207,7 @@ namespace FF::Wrapper {
 			vkGetPhysicalDeviceSurfaceFormatsKHR(mDevice->getPhysicalDevice(), mSurface->getSurface(), &formatCount, info.mFormats.data());
 		}
 
-		//»ñÈ¡³ÊÏÖÄ£Ê½
+		//è·å–å‘ˆç°æ¨¡å¼
 		uint32_t presentModeCount = 0;
 		vkGetPhysicalDeviceSurfacePresentModesKHR(mDevice->getPhysicalDevice(), mSurface->getSurface(), &presentModeCount, nullptr);
 
@@ -220,7 +220,7 @@ namespace FF::Wrapper {
 	}
 
 	VkSurfaceFormatKHR SwapChain::chooseSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
-		//Èç¹ûÖ»·µ»ØÁËÒ»¸öÎ´¶¨ÒåµÄ¸ñÊ½£¬ÄÇÃ´¾ÍÃ»ÓĞÊ×Ñ¡¸ñÊ½£¬ÎÒÃÇ×Ô¼º×öÒ»¸ö
+		//å¦‚æœåªè¿”å›äº†ä¸€ä¸ªæœªå®šä¹‰çš„æ ¼å¼ï¼Œé‚£ä¹ˆå°±æ²¡æœ‰é¦–é€‰æ ¼å¼ï¼Œæˆ‘ä»¬è‡ªå·±åšä¸€ä¸ª
 		if (availableFormats.size() == 1 && availableFormats[0].format == VK_FORMAT_UNDEFINED) {
 			return {VK_FORMAT_B8G8R8A8_SRGB, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR};
 		}
@@ -236,7 +236,7 @@ namespace FF::Wrapper {
 	}
 
 	VkPresentModeKHR SwapChain::chooseSurfacePresentMode(const std::vector<VkPresentModeKHR>& availablePresenstModes) {
-		//ÔÚÉè±¸ÉÏ£¬Ö»ÓĞFIFOÊÇ±»¾ø¶ÔÖ§³ÖµÄ, Èç¹ûÔÚÒÆ¶¯Éè±¸ÉÏ£¬ÎªÁË½ÚÊ¡µçÔ´£¬ÓÅÏÈÑ¡ÔñFIFO
+		//åœ¨è®¾å¤‡ä¸Šï¼Œåªæœ‰FIFOæ˜¯è¢«ç»å¯¹æ”¯æŒçš„, å¦‚æœåœ¨ç§»åŠ¨è®¾å¤‡ä¸Šï¼Œä¸ºäº†èŠ‚çœç”µæºï¼Œä¼˜å…ˆé€‰æ‹©FIFO
 		VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
 
 		for (const auto& availablePresentMode : availablePresenstModes) {
@@ -249,12 +249,12 @@ namespace FF::Wrapper {
 	}
 
 	VkExtent2D SwapChain::chooseExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
-		//Èç¹û³öÏÖÒÔÏÂÇé¿ö£¬ËµÃ÷ÏµÍ³²»ÔÊĞíÎÒÃÇ×Ô¼ºÉè¶¨extent
+		//å¦‚æœå‡ºç°ä»¥ä¸‹æƒ…å†µï¼Œè¯´æ˜ç³»ç»Ÿä¸å…è®¸æˆ‘ä»¬è‡ªå·±è®¾å®šextent
 		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
 			return capabilities.currentExtent;
 		}
 
-		//ÓÉÓÚ¸ßÇåÆÁÄ»Çé¿öÏÂ £¬±ÈÈçÆ»¹û£¬ ´°ÌåµÄ×ø±ê´óĞ¡£¬²¢²»µÈÓÚÏñËØµÄ³¤¿í
+		//ç”±äºé«˜æ¸…å±å¹•æƒ…å†µä¸‹ ï¼Œæ¯”å¦‚è‹¹æœï¼Œ çª—ä½“çš„åæ ‡å¤§å°ï¼Œå¹¶ä¸ç­‰äºåƒç´ çš„é•¿å®½
 		int width = 0, height = 0;
 		glfwGetFramebufferSize(mWindow->getWindow(), &width, &height);
 
@@ -263,7 +263,7 @@ namespace FF::Wrapper {
 			static_cast<uint32_t>(height)
 		};
 
-		//¹æ¶¨ÔÚmaxÓëminÖ®¼ä
+		//è§„å®šåœ¨maxä¸minä¹‹é—´
 		actualExtent.width = std::max(capabilities.minImageExtent.width,
 			std::min(capabilities.maxImageExtent.width, actualExtent.width));
 

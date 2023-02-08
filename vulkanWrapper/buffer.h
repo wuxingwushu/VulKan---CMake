@@ -28,8 +28,8 @@ namespace FF::Wrapper {
 		~Buffer();
 
 		/*
-		* 1 Í¨¹ıÄÚ´æMappingµÄĞÎÊ½£¬Ö±½Ó¶ÔÄÚ´æ½øĞĞ¸ü¸Ä£¬ÊÊÓÃÓÚHostVisibleÀàĞÍµÄÄÚ´æ
-		* 2 Èç¹û±¾ÄÚ´æÊÇLocalOptimal£¬ ÄÇÃ´¾Í±ØĞë´´½¨ÖĞ¼äµÄStageBuffer£¬ÏÈ¸´ÖÆµ½StageBuffer£¬ÔÙ¿½±´ÈëÄ¿±êBuffer
+		* 1 é€šè¿‡å†…å­˜Mappingçš„å½¢å¼ï¼Œç›´æ¥å¯¹å†…å­˜è¿›è¡Œæ›´æ”¹ï¼Œé€‚ç”¨äºHostVisibleç±»å‹çš„å†…å­˜
+		* 2 å¦‚æœæœ¬å†…å­˜æ˜¯LocalOptimalï¼Œ é‚£ä¹ˆå°±å¿…é¡»åˆ›å»ºä¸­é—´çš„StageBufferï¼Œå…ˆå¤åˆ¶åˆ°StageBufferï¼Œå†æ‹·è´å…¥ç›®æ ‡Buffer
 		*/
 		void updateBufferByMap(void *data, size_t size);
 

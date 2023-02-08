@@ -21,11 +21,11 @@ namespace FF::Wrapper {
 
 		[[nodiscard]] VkInstance getInstance() const { return mInstance; }
 
-		//ÅĞ¶ÏÊÇ·ñ¿ªÆôÁË¼ì²â
+		//åˆ¤æ–­æ˜¯å¦å¼€å¯äº†æ£€æµ‹
 		[[nodiscard]] bool getEnableValidationLayer() const { return mEnableValidationLayer; }
 
 	private:
-		//´òÓ¡ËùÒÔÀ©Õ¹Ãû
+		//æ‰“å°æ‰€ä»¥æ‰©å±•å
 		void printAvailableExtensions();
 
 	private:

@@ -24,7 +24,7 @@ namespace FF::Wrapper {
 		}
 
 		for (int i = 0; i < frameCount; ++i) {
-			//对每个DescriptorSet，我们需要把params里面的描述信息，写入其中
+			//瀵规瘡涓狣escriptorSet锛屾垜浠渶瑕佹妸params閲岄潰鐨勬弿杩颁俊鎭紝鍐欏叆鍏朵腑
 			std::vector<VkWriteDescriptorSet> descriptorSetWrites{};
 			for (const auto& param : params) {
 				VkWriteDescriptorSet descriptorSetWrite{};
